@@ -12,6 +12,7 @@ exports.addCategory=catchAsyncErrors(async (req,res,next)=>{
 
           res.status(201).json({
            success: true,
+           message:"Product Added Successfully",
            category,
          });  
 })
