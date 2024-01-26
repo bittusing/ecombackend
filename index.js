@@ -1,6 +1,6 @@
 const app = require('./app');
 const connectDatabase = require('./config/database');
-
+const cloudinary = require("cloudinary");
 // Handling uncaught error
 process.on('uncaughtException', (err) => {
   console.log(`Error: ${err.message}`);
@@ -10,6 +10,12 @@ process.on('uncaughtException', (err) => {
 const PORT = process.env.PORT || 80;
 
 connectDatabase();
+
+cloudinary.config({
+  cloud_name: 'dpcyktbx3', 
+  api_key: '195831277187359', 
+  api_secret: 'kUvROP9IdMTISqtJsDkBOlkkWrQ' 
+});
 
 app.listen(PORT, () => {
   console.log(`Server is working on http://localhost:${PORT}`); 

@@ -10,4 +10,4 @@ router.route("/EmployeesReportDetail").get(EmployeesReportDetail);
 router.route("/EmployeesReportDetailByFilter").post(EmployeesReportDetailByFilter); 
 
 
-module.exports=router;     
+module.exports=router;      

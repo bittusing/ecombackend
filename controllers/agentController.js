@@ -39,7 +39,8 @@ exports.deleteAgent = catchAsyncErrors(async (req, res, next) => {
 
 exports.getAllAgent = catchAsyncErrors(async (req, res, next) => {
   
-  const agent = await Agent.find({role:"user"});
+  // const agent = await Agent.find({role:"user"});
+  const agent = await Agent.find();
   
 
   res.status(201).json({
