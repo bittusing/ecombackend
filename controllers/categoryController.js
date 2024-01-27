@@ -64,7 +64,7 @@ exports.updateCategory=catchAsyncErrors(async (req,res,next)=>{
      })
 
      res.status(200).json({
-        success:true,
+        success:true,    
         message:"Update Successfully",
         category1
      })
