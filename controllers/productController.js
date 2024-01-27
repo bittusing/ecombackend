@@ -2,7 +2,8 @@ const Product=require('../models/productModel');
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const cloudinary = require("cloudinary");
-
+const category = require("../models/categoryModel");
+const { ObjectId } = require('mongoose').Types;
 
 // create lost reason
 
@@ -55,8 +56,30 @@ exports.deleteproduct=catchAsyncErrors(async (req,res,next)=>{
 
 // get All lost reason
 exports.getAllproduct=catchAsyncErrors(async(req,res,next)=>{
-         const product=await Product.find();
-
+        const product =await Product.aggregate([
+          {
+            $lookup:{
+               from:"categories",
+               let: { categoryString: "$category" },
+               pipeline: [
+                 {
+                   $match: {
+                     $expr: {
+                       $eq: ["$_id", { $toObjectId: "$$categoryString" }],
+                     },
+                   },
+                 },
+                 {
+                   $project: {
+                    category_name: 1,
+                   },
+                 },
+               ],
+               as: "Category",
+            }
+          }
+         ])
+      
          res.status(200).json({
            success:true,
            product
