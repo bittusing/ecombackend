@@ -37,6 +37,14 @@ const productSchema=new mongoose.Schema({
          type: mongoose.Schema.ObjectId,
        // required:[true,"Please Enter Product Category"]
     },
+    subcategory:{
+        type: mongoose.Schema.ObjectId,
+      // required:[true,"Please Enter Product Category"]
+   },
+   brand:{
+    type: mongoose.Schema.ObjectId,
+  // required:[true,"Please Enter Product Category"]
+},
     Stock:{
         type:Number,
         required:[true,"please enter product stock"],
