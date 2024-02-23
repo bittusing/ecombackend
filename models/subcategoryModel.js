@@ -7,9 +7,10 @@ const subcategorySchema = new mongoose.Schema(
       trim: true,
     },
     category: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId, // Use ObjectId type
+      ref: 'category', // Reference to the 'category' collection
       required:[true,"Please Enter category Mobile"],     
-      trim: true,
+      // trim: true,
     },
   },
   {

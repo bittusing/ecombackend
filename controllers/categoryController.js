@@ -102,12 +102,52 @@ exports.deletesubcategory=catchAsyncErrors(async (req,res,next)=>{
 
 ////////////get all sub category
 exports.getAllsubcategory=catchAsyncErrors(async(req,res,next)=>{
-  const subcategory=await Subcategory.find();
+//    const subcategory = await Subcategory.aggregate([
+//     {
+//       $lookup: {
+//         from: "categories",
+//         let: { categoryString: "$category" },
+//         pipeline: [
+//           {
+//             $match: {
+//               $expr: {
+//                 $eq: ["$_id", { $toObjectId: "$$categoryString" }],
+//               },
+//             },
+//           },
+//           {
+//             $project: {
+//               category_name: 1,
+//             },
+//           },
+//         ],
+//         as: "CategoryDetails",
+//       },
+//     },   
+//   ]);
+//  res.status(200).json({
+//     success:true,
+//     subcategory
+//   })
+try {
+  // Fetch category data
+  const categories = await Category.find();
 
-  res.status(200).json({
-    success:true,
-    subcategory
-  })
+  // Fetch subcategory data for each category
+  const categoriesWithData = await Promise.all(categories.map(async category => {
+    const subcategories = await Subcategory.find({ category: category._id });
+    return {
+      _id: category._id,
+      category_name: category.category_name,
+      subcategories
+    };
+  }));
+
+  res.status(200).json({ success: true, data: categoriesWithData });
+} catch (error) {
+  console.error('Error fetching category data:', error);
+  res.status(500).json({ success: false, error: 'Internal server error' });
+}
 })
 
 ///////////update subcategory
@@ -154,7 +194,7 @@ exports.deletebrand=catchAsyncErrors(async (req,res,next)=>{
     success:true,
     message:"Deleated Successfully",
     brand,
-  }) 
+  })  
  }) 
 ////////////// get all brand 
 exports.getAllbrand=catchAsyncErrors(async(req,res,next)=>{
