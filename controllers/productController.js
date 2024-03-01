@@ -37,22 +37,29 @@ exports.addproduct = catchAsyncErrors(async (req, res, next) => {
 // Delete lost reason
 
 exports.deleteproduct=catchAsyncErrors(async (req,res,next)=>{
-
-   const product=await Product.findById(req.params.id);
-
+  const product=await Product.findById(req.params.id);
    if(!product){
      return next(new ErrorHander("product is not found",404));
    }
-
-   await product.deleteOne();   
-
+  await product.deleteOne();   
    res.status(201).json({
      success:true,
      message:"Deleated Successfully",
      product,
    }) 
-   
-}) 
+ }) 
+
+ exports.BulkProductDelete = catchAsyncErrors(async (req, res, next) => {
+  const leadIds = req.body.ids; 
+
+  const result = await Product.deleteMany({ _id: { $in: leadIds } });
+  res.status(200).json({
+    success: true,
+    message: "Product Has Been Deleted",
+  });
+});
+
+
 
 // get All lost reason
 exports.getAllproduct=catchAsyncErrors(async(req,res,next)=>{
@@ -77,6 +84,48 @@ exports.getAllproduct=catchAsyncErrors(async(req,res,next)=>{
                ],
                as: "Category",
             }
+          },
+          {
+            $lookup:{
+               from:"subcategories",
+               let: { subcategoryString: "$subcategory" },
+               pipeline: [
+                 {
+                   $match: {
+                     $expr: {
+                       $eq: ["$_id", { $toObjectId: "$$subcategoryString" }],
+                     },
+                   },
+                 },
+                 {
+                   $project: {
+                    subcategory: 1,
+                   },
+                 },
+               ],
+               as: "subcategory",
+            }
+          },
+          {
+            $lookup:{
+               from:"brands",
+               let: { brandString: "$brand" },
+               pipeline: [
+                 {
+                   $match: {
+                     $expr: {
+                       $eq: ["$_id", { $toObjectId: "$$brandString" }],
+                     },
+                   },
+                 },
+                 {
+                   $project: {
+                    brand: 1,
+                   },
+                 },
+               ],
+               as: "brand",
+            }
           }
          ])
       
@@ -84,7 +133,19 @@ exports.getAllproduct=catchAsyncErrors(async(req,res,next)=>{
            success:true,
            product
          })
-})
+});
+
+////get getAllproductbyid 
+exports.getAllproductbyid=catchAsyncErrors(async(req,res,next)=>{
+  const product=await Product.findById(req.params.id);
+  if(!product){
+    return next(new ErrorHander("product is not found",404));
+  }
+  res.status(201).json({
+    success:true,
+    product,
+  }) 
+});
 
 ////  update Lost Reason 
 

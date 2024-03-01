@@ -100,35 +100,60 @@ exports.deletesubcategory=catchAsyncErrors(async (req,res,next)=>{
   
 }) 
 
+
+////////////get all subcategory
+exports.getsubcategory=catchAsyncErrors(async (req,res,next)=>{
+     const subcategory = await Subcategory.aggregate([
+    {
+      $lookup: {
+        from: "categories",
+        let: { categoryString: "$category" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$_id", { $toObjectId: "$$categoryString" }],
+              },
+            },
+          },
+          {
+            $project: {
+              category_name: 1,
+            },
+          },
+        ],
+        as: "CategoryDetails",
+      },
+    },   
+  ]);
+ res.status(200).json({
+    success:true,
+    subcategory
+  })
+})
+
+
+/////////// Get All SubCategory By Category Id 
+exports.getSubcategoryByCategoryId=catchAsyncErrors(async(req,res,next)=>{
+    const {category}=req.body;
+     const subCategory=await Subcategory.find({category:category});
+     res.status(200).json({
+      success:true,
+      subCategory
+    })
+
+});
+
+
+
+
+
+
+
+
 ////////////get all sub category
 exports.getAllsubcategory=catchAsyncErrors(async(req,res,next)=>{
-//    const subcategory = await Subcategory.aggregate([
-//     {
-//       $lookup: {
-//         from: "categories",
-//         let: { categoryString: "$category" },
-//         pipeline: [
-//           {
-//             $match: {
-//               $expr: {
-//                 $eq: ["$_id", { $toObjectId: "$$categoryString" }],
-//               },
-//             },
-//           },
-//           {
-//             $project: {
-//               category_name: 1,
-//             },
-//           },
-//         ],
-//         as: "CategoryDetails",
-//       },
-//     },   
-//   ]);
-//  res.status(200).json({
-//     success:true,
-//     subcategory
-//   })
+
 try {
   // Fetch category data
   const categories = await Category.find();

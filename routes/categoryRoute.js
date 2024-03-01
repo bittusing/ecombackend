@@ -1,7 +1,7 @@
 const express=require('express');
 const { addCategory ,deletecategory , getAllcategory,updateCategory
 ,updatesubCategory,getAllsubcategory ,deletesubcategory ,addsubcategory
-,addbrand ,deletebrand ,getAllbrand ,updatebrand
+,addbrand ,deletebrand ,getAllbrand ,updatebrand,getsubcategory,getSubcategoryByCategoryId
 } = require('../controllers/categoryController');
 
 
@@ -15,9 +15,12 @@ router.route("/updateCategory/:id").put(updateCategory);
 
 ///////////////subcategory route
 router.route("/addsubcategory").post(addsubcategory);   
+router.route("/getSubcategoryByCategoryId").post(getSubcategoryByCategoryId);
 router.route("/deletesubcategory/:id").delete(deletesubcategory);
 router.route("/getAllsubcategory").get(getAllsubcategory);
+router.route("/getsubcategory").get(getsubcategory);
 router.route("/updatesubCategory/:id").put(updatesubCategory);
+
 ////////////// Brand Route 
 router.route("/addbrand").post(addbrand);   
 router.route("/deletebrand/:id").delete(deletebrand);

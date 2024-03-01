@@ -34,7 +34,9 @@ function fileFilter(req, file, cb) {
     cb(new Error('Invalid file type. Only png,jpg files are allowed.'), false);
   }
 }
-var upload = multer({ storage: storage, fileFilter: fileFilter });
+var upload = multer({ storage: storage, limits: {
+  fileSize: 5 * 1024 * 1024 // 5MB limit (adjust as needed)
+}, fileFilter: fileFilter });
 const  sliderController=require('../controllers/sliderController'); 
 slider.post('/api/v1/addslider',upload.single('image'),sliderController.addslider);     
 slider.get('/api/v1/getAllSlider',sliderController.getAllSlider); 
