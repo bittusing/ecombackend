@@ -10,6 +10,10 @@ const sliderSchema = new mongoose.Schema(
       type: String,
         trim: true,
     },
+    image_name:{
+      type: String,
+        trim: true,
+    },
 
   },
   {

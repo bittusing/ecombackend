@@ -22,7 +22,7 @@ app.use(cors());
 app.use("/api/v1/",agent);
 app.use("/",slider); 
 app.use("/api/v1/",category);
-app.use("/api/v1/",product);
+app.use("/",product);
 
 
 

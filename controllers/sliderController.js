@@ -10,10 +10,12 @@ exports.addslider = catchAsyncErrors(async (req, res, next) => {
   try {
       let imagePath;
       if (req.file) {
+       
           imagePath = req.file.path;
+          image_name  =req.file.filename;
       }
     // If imagePath is undefined, you may want to handle it appropriately
-      const sliderData = { ...req.body, image: imagePath };
+      const sliderData = { ...req.body, image: imagePath,image_name:image_name};
      const slider = await Slider.create(sliderData);
       res.status(201).json({
           success: true,

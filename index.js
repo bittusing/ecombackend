@@ -8,15 +8,7 @@ process.on('uncaughtException', (err) => {
   process.exit(1); // Fix the typo here
 });
 const PORT = process.env.PORT || 80;
-
 connectDatabase();
-
-cloudinary.config({
-  cloud_name: 'dpcyktbx3', 
-  api_key: '195831277187359', 
-  api_secret: 'kUvROP9IdMTISqtJsDkBOlkkWrQ' 
-});
-
 app.listen(PORT, () => {
   console.log(`Server is working on http://localhost:${PORT}`); 
 }); 
