@@ -26,6 +26,22 @@ exports.deleteaddcart=catchAsyncErrors(async (req,res,next)=>{
  });  
 });
 
+/////////removecartbycartid
+exports.removecartbycartid=catchAsyncErrors(async(req,res,next)=>{
+  const cart = await Cart.findById(req.params.id);
+
+  if (!cart) {
+    return next(new ErrorHander("cart Not Found", 404));
+  }
+  await cart.deleteOne();
+
+  res.status(200).json({
+    success: true,
+    message: "cart Delete Successfully",
+    cart,
+  });
+})
+
 /// get by session id 
 exports.getAllCartBySessionId=catchAsyncErrors(async (req,res,next)=>{
            const {session_id} =req.body;
