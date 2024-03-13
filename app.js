@@ -16,13 +16,15 @@ const agent =require('./routes/agentRoute');
 const slider=require('./routes/sliderRoute');
 const category=require('./routes/categoryRoute')
 const product=require('./routes/productRoute');
+const cart=require('./routes/cartRoute')
 
 
-app.use(cors());
+app.use(cors());   
 app.use("/api/v1/",agent);
 app.use("/",slider); 
 app.use("/api/v1/",category);
 app.use("/",product);
+app.use("/api/v1/",cart);  
 
 
 

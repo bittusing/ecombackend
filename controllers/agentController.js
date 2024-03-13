@@ -70,12 +70,7 @@ exports.getAgentDetails = catchAsyncErrors(async (req, res, next) => {
 // login Agent
 
 exports.loginAgent = catchAsyncErrors(async (req, res, next) => {
-  // const {agent_email, agent_password} =req.body;
-  
-
- 
-  
-  const { email, password } = req.body;
+    const { email, password } = req.body;
 
   if (!email || !password) {
     return next(new ErrorHander("Plz Enter Email And Password", 400));
