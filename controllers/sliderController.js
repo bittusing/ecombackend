@@ -48,7 +48,7 @@ exports.deleteslider=catchAsyncErrors(async (req,res,next)=>{
 
 // get All lost reason
 exports.getAllSlider=catchAsyncErrors(async(req,res,next)=>{
-         const slider=await Slider.find();
+         const slider=await Slider.find({imagefor:"Desktop"});
 
          res.status(200).json({
            success:true,
