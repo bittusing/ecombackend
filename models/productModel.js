@@ -13,10 +13,21 @@ const productSchema = new mongoose.Schema({
         required: [true, "Please Enter Product Description"]
     },
     price: {
-        type: Number,
-        required: [true, "Please Enter Product Price"],
-        maxlength: [8, "price can not exceed 8 characters"]
+        type: Number, 
+      },
+    sku:{
+        type: String,
     },
+
+    SupplimentFacts:{
+        type: String,
+    },
+
+
+    ProductOverviewDiscription:{
+        type: String,
+    },
+
     rating: {
         type: Number,
         default: 0
