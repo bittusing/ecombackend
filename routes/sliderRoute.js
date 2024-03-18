@@ -40,6 +40,7 @@ var upload = multer({ storage: storage, limits: {
 const  sliderController=require('../controllers/sliderController'); 
 slider.post('/api/v1/addslider',upload.single('image'),sliderController.addslider);     
 slider.get('/api/v1/getAllSlider',sliderController.getAllSlider); 
+slider.get('/api/v1/getAllSliderMobile',sliderController.getAllSliderMobile); 
 slider.delete('/api/v1/deleteslider/:id',sliderController.deleteslider);
 slider.put('/api/v1/updateSlider/:id',upload.single('image'),sliderController.updateSlider);
 module.exports=slider;
