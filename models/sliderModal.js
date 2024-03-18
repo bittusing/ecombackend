@@ -14,6 +14,10 @@ const sliderSchema = new mongoose.Schema(
       type: String,
         trim: true,
     },
+    imagefor:{
+      type: String,
+        trim: true,
+    },
 
   },
   {
