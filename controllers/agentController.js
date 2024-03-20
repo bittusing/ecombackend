@@ -7,9 +7,8 @@ const bcrypt = require('bcryptjs');
 const useragent = require('express-useragent');
 
 exports.createAgent = catchAsyncErrors(async (req, res, next) => {
-  
 const agent = await Agent.create(req.body);
-
+console.log(req.body)
 res.status(201).json({
   success: true,   
   agent,

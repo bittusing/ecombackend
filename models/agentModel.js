@@ -1,43 +1,38 @@
 const mongoose = require('mongoose');
-const validater = require('validator');
+const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const JWT_SECRET='griguirghkjfndfkmgnjfhgjfh';
-// const JWT_EXPIRE='5d';
 const crypto = require("crypto");
 
 const agentSchema = new mongoose.Schema({
-
   agent_name: {
     type: String,
-    required: [true, "Please Enter Agent Name"],
+    required: [true, "Please enter the agent name"],
     trim: true
   },
   agent_email: {
     type: String,
-    required: [true, "Please Enter agent_email"],
+    required: [true, "Please enter the agent email"],
     unique: true,
+    validate: [validator.isEmail, "Please enter a valid email"]
   },
   agent_mobile: {
     type: String,
     trim: true,
-    unique: false, // Remove unique constraint
+    unique: true // Assuming agent_mobile should be unique
   },
   agent_password: {
     type: String,
-    unique: true,
-    required: [true, "Please Enter Your password"],
-    minLength: [6, "minimum 6 charactor take of pass"],
+    required: [true, "Please enter your password"],
+    minLength: [6, "Minimum 6 characters required for the password"],
     select: false
   },
-
   role: {
     type: String,
     default: "user"
   },
-  agent_roll: {
+  agent_role: {
     type: String,
-    required: true,
     default: "sales",
   },
   profile_image: {
@@ -46,7 +41,6 @@ const agentSchema = new mongoose.Schema({
   pimg: {
     type: String,
   },
- 
   agent_status: {
     type: Number,
     default: 1,
@@ -55,53 +49,39 @@ const agentSchema = new mongoose.Schema({
     type: String,
     default: "no",
   },
-
   resetPasswordToken: String,
-  resetPasswordExpire: Date,
+  resetPasswordExpire: Date
+}, {
+  timestamps: true
+});
 
-},
-  {
-    timestamps: true
-  }
-)
-
-// convert pass in bcrypt hash then save
+// Convert password to bcrypt hash before saving
 agentSchema.pre("save", async function (next) {
   if (!this.isModified("agent_password")) {
-    next();
+    return next();
   }
   this.agent_password = await bcrypt.hash(this.agent_password, 10);
-})
+  next();
+});
 
-
-
-
-// JWT Token 
-
+// Generate JWT Token
 agentSchema.methods.getJWTToken = function () {
-
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE,
-  })
-}
+    expiresIn: process.env.JWT_EXPIRE || "5d",
+  });
+};
 
-// compare password 
+// Compare Password
+agentSchema.methods.comparePassword = async function (enterPassword) {
+  return await bcrypt.compare(enterPassword, this.agent_password);
+};
 
-agentSchema.methods.comparePassword = async function (enterpassword) {
-  return await bcrypt.compare(enterpassword, this.agent_password);
-
-}
-
-// genrating pass  reset token
-
+// Generate Password Reset Token
 agentSchema.methods.getResetPasswordToken = function () {
-  // genrate token
   const resetToken = crypto.randomBytes(20).toString("hex");
-
-  // hashing and add to userschema
   this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
   this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
   return resetToken;
-}
+};
 
 module.exports = mongoose.model("crm_agent", agentSchema);
