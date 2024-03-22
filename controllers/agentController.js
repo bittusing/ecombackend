@@ -1,4 +1,5 @@
 const Agent = require("../models/agentModel");
+const AgentAddress = require("../models/agentAddressModel");
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendToken = require("../utils/jwtToken");
@@ -8,13 +9,36 @@ const useragent = require('express-useragent');
 
 exports.createAgent = catchAsyncErrors(async (req, res, next) => {
 const agent = await Agent.create(req.body);
-console.log(req.body)
 res.status(201).json({
   success: true,   
   agent,
-  message:"Agent Added Successfully...."
+  message:"Agent Added Successfully...." 
 });  
- 
+});
+
+///// Addresss Add 
+exports.AddAgentAddress=catchAsyncErrors(async(req,res,next)=>{
+  const agentAddress = await AgentAddress.create(req.body);
+  res.status(201).json({  
+    success: true,   
+    agentAddress,  
+    message:"Address Added Successfully...." 
+  });
+})
+
+/////// Delete Address
+
+exports.deleteAgentAddress = catchAsyncErrors(async (req, res, next) => {
+  const agent = await AgentAddress.findById(req.params.id);
+  if (!agent) {
+    return next(new ErrorHander("Agent Not Found", 404));
+  }
+  await agent.deleteOne();
+  res.status(200).json({
+    success: true,
+    message: "Address Delete Successfully",
+    agent,
+  });
 });
 
 // Delete Agent --admin
