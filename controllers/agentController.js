@@ -46,13 +46,12 @@ exports.EditAgentAddress = catchAsyncErrors(async (req, res, next) => {
   const agentAddress = await AgentAddress.findById(req.params.id);
   if (!agentAddress) {
     return next(new ErrorHander("Agent Address is not", 400));
-  }
+  } 
   const updateagent = await AgentAddress.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
   })
-
   res.status(200).json({
     success: true,
     updateagent,
