@@ -49,11 +49,11 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
         await Cart.deleteMany(order?.session_id);
 
         res.redirect(
-            `http://localhost:3001/SuccessPage?reference=${razorpay_order_id}`
+            `https://www.decasys.in/SuccessPage?reference=${razorpay_order_id}`
         );
     } else {
         res.redirect(
-            `http://localhost:3001/PaymentFaildPage`
+            `https://www.decasys.in/PaymentFaildPage`
         );
         // res.status(400).json({
         //     success: false,
