@@ -7,8 +7,10 @@ const errorMiddleware=require("./middleware/error");
 
 
 
+
 app.use(useragent.express());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // To parse URL-encoded bodies
 app.use(cookieParser());  
 app.use(express.static('public'));
 
@@ -16,7 +18,8 @@ const agent =require('./routes/agentRoute');
 const slider=require('./routes/sliderRoute');
 const category=require('./routes/categoryRoute')
 const product=require('./routes/productRoute');
-const cart=require('./routes/cartRoute')
+const cart=require('./routes/cartRoute');
+const payment=require('./routes/paymentRoutes');
 
 
 app.use(cors());   
@@ -25,8 +28,12 @@ app.use("/",slider);
 app.use("/api/v1/",category);
 app.use("/",product);
 app.use("/api/v1/",cart);  
+app.use("/api/v1/",payment);
 
 
+app.get("/api/getkey", (req, res) =>
+  res.status(200).json({ key: process.env.RAZORPAY_API_KEY })
+);
 
 app.get('/', function (req, res) { 
     
