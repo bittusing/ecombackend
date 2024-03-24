@@ -8,7 +8,7 @@ process.on('uncaughtException', (err) => {
   console.log('Shutting down the server due to handling uncaught error');
   process.exit(1); // Fix the typo here
 });
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 4001;
 connectDatabase();
 
  
