@@ -111,7 +111,7 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
             { razorpay_payment_id, razorpay_signature, payment_status: 'success' },
             { new: true } // Return the updated document
         );
-
+ 
 
         // Generate invoice
         const invoice = generateInvoice(updatedOrder); // Assuming generateInvoice function is defined
