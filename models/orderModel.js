@@ -24,7 +24,7 @@ const orderSchema = new mongoose.Schema({
             product_price: {
                 type: Number,
             },
-        }
+        } 
     ],
     payment_status: {
         type: String,
