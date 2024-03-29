@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
         required: [true, "Please Enter Product Description"]
     },
     price: {
-        type: Number, 
+        type: String, 
       },
     sku:{
         type: String,
@@ -60,6 +60,7 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+   
     reviews: [
         {
             name: {

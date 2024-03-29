@@ -47,4 +47,6 @@ product.delete('/api/v1/BulkProductDelete',productController.BulkProductDelete);
 product.delete('/api/v1/deleteproduct/:id',productController.deleteproduct);
 product.put('/api/v1/updateproduct/:id',upload,productController.updateproduct);
 product.get('/api/v1/getAllproductbyid/:id',productController.getAllproductbyid);
+product.post('/api/v1/AddRevied',productController.AddRevied);
+product.get('/api/v1/getAllReviews/:id',productController.getAllReviews); 
 module.exports=product;

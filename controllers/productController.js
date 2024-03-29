@@ -6,39 +6,40 @@ const category = require("../models/categoryModel");
 const { ObjectId } = require('mongoose').Types;
 const fs = require('fs'); // Add this line to import the fs module
 const path = require('path');
+const Review = require('../models/reviewModel');
 // create lost reason
 
 exports.addproduct = catchAsyncErrors(async (req, res, next) => {
   try {
-   let images1 = [];
+    let images1 = [];
     if (req.files) {
       // Iterate over the keys of req.files
       Object.keys(req.files).forEach(key => {
         // For each key, iterate over the array of files associated with that key
         req.files[key].forEach(file => {
           images1.push({
-            image_name: file.filename, 
-            url: file.path 
+            image_name: file.filename,
+            url: file.path
           });
         });
       });
     }
 
 
-  
-    const Data = { 
+
+    const Data = {
       ...req.body,
       images: images1 // Assign the images array to the images field
     };
-  
+
     const product = await Product.create(Data);
-  
+
     res.status(201).json({
       success: true,
       product,
     });
   } catch (error) {
-    next(error); 
+    next(error);
   }
 });
 
@@ -175,3 +176,64 @@ exports.updateproduct = catchAsyncErrors(async (req, res, next) => {
     product1
   })
 })
+
+
+/////  Add Review of Product 
+exports.AddRevied = catchAsyncErrors(async (req, res, next) => {
+  const { product_id, name, rating, title, comment } = req.body;
+  
+  // Check if product_id is provided
+  if (!product_id) {
+    return next(new ErrorHander("Product ID is required", 404));
+  }
+
+  // Find the product
+  const product = await Product.findById(product_id);
+  
+  // Check if product exists
+  if (!product) {
+    return next(new ErrorHander("Product not found", 404));
+  }
+
+  // Create a new review using the request body data
+  const review = await Review.create({
+    product_id,
+    name,
+    rating,
+    title,
+    comment
+  });
+
+  // Send response
+  res.status(201).json({
+    success: true,
+    message: 'Review added successfully.',
+    review,
+  });
+});
+
+
+// get Product Review 
+exports.getAllReviews = async (req, res, next) => {
+  try {
+  
+    const reviews = await Review.find({ product_id:req.params.id });
+
+    res.status(200).json({
+      success: true,
+      reviews
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: 'Internal Server Error'
+    });
+  }
+};
+
+
+
+
+
+
+
