@@ -30,7 +30,7 @@ const ShipmentSchema = new mongoose.Schema({
         type: String,
     },
     razorpay_order_id: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
     },
    
 });

@@ -180,7 +180,7 @@ exports.GetOrderBySessionIdOrUserId = catchAsyncErrors(async (req, res, next) =>
         };
 
         const allOrder = await SaveOrder.aggregate([
-            { $match: query },
+            { $match: query }, 
             {
                 $lookup: {
                     from: "shipments",
@@ -241,7 +241,7 @@ exports.createShipments = catchAsyncErrors(async (req, res, next) => {
             url: 'https://api.nimbuspost.com/v1/shipments',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTE0NTk1NTEsImp0aSI6IlZvaWtEeXNcL3Q4OTQ5SVBqWnNXUThCXC9kbmhxc3FjNUZyMW9OY1YraHNqRT0iLCJuYmYiOjE3MTE0NTk1NTEsImV4cCI6MTcxMTQ3MDM1MSwiZGF0YSI6eyJ1c2VyX2lkIjoiMTQ0MzE0IiwicGFyZW50X2lkIjoiMCJ9fQ.CKdW1K51yzKs_fOWQOY1yOpGDELK1_Nq7L_LC0LGNNjJ-GE6BhTvi-9JLddeshCjgQdlzPguCkaTYzd37k-MTQ'
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTE2ODkwMzAsImp0aSI6ImxUTzVLcVJ3SjVBV09nZFFMKzlqREMxUG0wUTNHSEI2aGdORUpFc0hRTjA9IiwibmJmIjoxNzExNjg5MDMwLCJleHAiOjE3MTE2OTk4MzAsImRhdGEiOnsidXNlcl9pZCI6IjE0NDMxNCIsInBhcmVudF9pZCI6IjAifX0.K89TIgG2gaPcXbc4eQ0AzwDh5RW5Kbyctuo_uBwqTHQOqdiq8tvuzmcGybBQnLlZTYazd5XxX9-qY5275Rs0vg'
             },
             body: JSON.stringify({
                 "order_number": razorpay_order_id,
@@ -287,6 +287,7 @@ exports.createShipments = catchAsyncErrors(async (req, res, next) => {
             }
 
             const responseData = JSON.parse(response.body); // Parse the response body to JSON
+            // console.log(responseData)
             const { status, data } = responseData;
           
             if (status && data) {
