@@ -65,6 +65,16 @@ exports.getAllSliderMobile=catchAsyncErrors(async(req,res,next)=>{
   })
 })
 
+
+/// get all  getAllSliderss
+exports.getAllSliderss=catchAsyncErrors(async(req,res,next)=>{
+  const slider=await Slider.find();
+
+  res.status(200).json({
+    success:true,
+    slider
+  })
+});
 ////  update Lost Reason 
 
 exports.updateSlider = catchAsyncErrors(async (req, res, next) => {
