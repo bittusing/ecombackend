@@ -160,7 +160,7 @@ exports.getAllproductbyid = catchAsyncErrors(async (req, res, next) => {
 
 ////  update Lost Reason 
 
-exports.updateproduct = catchAsyncErrors(async (req, res, next) => {
+exports.updateproduct1 = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product) {
     return next(new ErrorHander("product is not found", 404));
@@ -176,6 +176,39 @@ exports.updateproduct = catchAsyncErrors(async (req, res, next) => {
     product1
   })
 })
+
+exports.updateproduct = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return next(new ErrorHander("Product is not found", 404));
+    }
+    product.name = req.body.name || product.name;
+    product.price = req.body.price || product.price;
+    let images = product.images || []; 
+
+    if (req.files) {
+      Object.keys(req.files).forEach((key) => {
+       req.files[key].forEach((file) => {
+          images.push({
+            image_name: file.filename,
+            url: file.path,
+          });
+        });
+      });
+    }
+   product.images = images;  
+   const updatedProduct = await product.save();
+    res.status(200).json({
+      success: true,
+      message: "Product updated successfully",
+      product: updatedProduct,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 
 /////  Add Review of Product 
