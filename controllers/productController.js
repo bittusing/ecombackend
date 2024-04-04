@@ -160,22 +160,6 @@ exports.getAllproductbyid = catchAsyncErrors(async (req, res, next) => {
 
 ////  update Lost Reason 
 
-exports.updateproduct1 = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
-  if (!product) {
-    return next(new ErrorHander("product is not found", 404));
-  }
-  const product1 = await Product.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-    useFindAndModify: false,
-  })
-  res.status(200).json({
-    success: true,
-    message: "Product Update Successfully",
-    product1
-  })
-})
 
 exports.updateproduct = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -184,7 +168,16 @@ exports.updateproduct = catchAsyncErrors(async (req, res, next) => {
       return next(new ErrorHander("Product is not found", 404));
     }
     product.name = req.body.name || product.name;
-    product.price = req.body.price || product.price;
+    product.category = req.body.category || product.category;
+    product.brand = req.body.brand || product.brand;
+    product.Stock = req.body.Stock || product.Stock;
+    product.weightwishprice = req.body.weightwishprice || product.weightwishprice;
+    product.subcategory = req.body.subcategory || product.subcategory;
+    product.description = req.body.description || product.description;
+    product.ProductOverviewDiscription = req.body.ProductOverviewDiscription || product.ProductOverviewDiscription;
+    product.SupplimentFacts = req.body.SupplimentFacts || product.SupplimentFacts;
+    product.sku = req.body.sku || product.sku;
+ 
     let images = product.images || []; 
 
     if (req.files) {
