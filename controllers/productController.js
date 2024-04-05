@@ -257,6 +257,100 @@ exports.getAllReviews = async (req, res, next) => {
   }
 };
 
+exports.getAllProductByCategory = async (req, res, next) => {
+  try {
+    // Find products by category ID
+    const products = await Product.find({ category: req.params.id });
+
+    // Check if products exist
+    if (!products || products.length === 0) {
+      return next(new ErrorHander("Products not found", 404));
+    }
+
+    // Calculate total rating for products
+    let totalRating = 0;
+    for (const product of products) {
+      const reviews = await Review.find({ product_id: product._id });
+      for (const review of reviews) {
+        totalRating += review.rating;
+      }
+      product.rating = Math.round(totalRating / reviews.length);
+    }
+
+    // Send response with products
+    res.status(200).json({
+      success: true,
+      products
+    });
+  } catch (error) {
+    // Handle errors
+    next(error);
+  }
+};
+
+
+exports.getAllProductBySubCategory = async (req, res, next) => {
+  try {
+    // Find products by category ID
+    const products = await Product.find({ subcategory: req.params.id });
+
+    // Check if products exist
+    if (!products || products.length === 0) {
+      return next(new ErrorHander("Products not found", 404));
+    }
+
+    // Calculate total rating for products
+    let totalRating = 0;
+    for (const product of products) {
+      const reviews = await Review.find({ product_id: product._id });
+      for (const review of reviews) {
+        totalRating += review.rating;
+      }
+      product.rating = Math.round(totalRating / reviews.length);
+    }
+
+    // Send response with products
+    res.status(200).json({
+      success: true,
+      products
+    });
+  } catch (error) {
+    // Handle errors
+    next(error);
+  }
+};
+
+exports.getAllProductByBrand = async (req, res, next) => {
+  try {
+    // Find products by category ID
+    const products = await Product.find({ brand: req.params.id });
+
+    // Check if products exist
+    if (!products || products.length === 0) {
+      return next(new ErrorHander("Products not found", 404));
+    }
+
+    // Calculate total rating for products
+    let totalRating = 0;
+    for (const product of products) {
+      const reviews = await Review.find({ product_id: product._id });
+      for (const review of reviews) {
+        totalRating += review.rating;
+      }
+      product.rating = Math.round(totalRating / reviews.length);
+    }
+
+    // Send response with products
+    res.status(200).json({
+      success: true,
+      products
+    });
+  } catch (error) {
+    // Handle errors 
+    next(error);
+  }
+};
+
 
 
 
