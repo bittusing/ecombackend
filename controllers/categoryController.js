@@ -251,3 +251,4 @@ exports.updatebrand=catchAsyncErrors(async (req,res,next)=>{
      brand1
   })
 })
+
