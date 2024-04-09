@@ -345,7 +345,7 @@ exports.getTrackingDetails = catchAsyncErrors(async (req, res, next) => {
 
 exports.GetAllOrder = catchAsyncErrors(async (req, res, next) => {
     const allOrder = await SaveOrder.find();
-    res.status(500).json({ success: true, allOrder });
+    res.status(200).json({ success: true, allOrder });
 })
 
 
