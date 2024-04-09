@@ -1,7 +1,7 @@
 const express=require('express');
 const {
   checkout,
-  paymentVerification,GetOrderBySessionIdOrUserId,createShipments,getTrackingDetails
+  paymentVerification,GetOrderBySessionIdOrUserId,createShipments,getTrackingDetails,GetAllOrder
 } = require("../controllers/paymentController.js");
 
 const router=express.Router(); 
@@ -12,6 +12,7 @@ router.route("/paymentverification").post(paymentVerification);
 router.route("/GetOrderBySessionIdOrUserId").post(GetOrderBySessionIdOrUserId);
 router.route("/createShipments").post(createShipments);
 router.route("/getTrackingDetails").post(getTrackingDetails); 
+router.route("/GetAllOrder").get(GetAllOrder); 
 
 module.exports=router;
 

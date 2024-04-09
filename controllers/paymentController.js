@@ -111,7 +111,7 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
             { razorpay_payment_id, razorpay_signature, payment_status: 'success' },
             { new: true } // Return the updated document
         );
- 
+
 
         // Generate invoice
         const invoice = generateInvoice(updatedOrder); // Assuming generateInvoice function is defined
@@ -148,19 +148,19 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
 exports.GetOrderBySessionIdOrUserId11 = catchAsyncErrors(async (req, res, next) => {
     const { user_id, session_id } = req.body;
     const allOrder = await SaveOrder.find({
-        $or: [ 
+        $or: [
             { user_id: user_id },
             { session_id: session_id }
         ]
     });
-    
-    
- res.status(200).json({
+
+
+    res.status(200).json({
         success: true,
         allOrder,
     });
 
-   
+
 });
 
 exports.GetOrderBySessionIdOrUserId = catchAsyncErrors(async (req, res, next) => {
@@ -180,7 +180,7 @@ exports.GetOrderBySessionIdOrUserId = catchAsyncErrors(async (req, res, next) =>
         };
 
         const allOrder = await SaveOrder.aggregate([
-            { $match: query }, 
+            { $match: query },
             {
                 $lookup: {
                     from: "shipments",
@@ -289,7 +289,7 @@ exports.createShipments = catchAsyncErrors(async (req, res, next) => {
             const responseData = JSON.parse(response.body); // Parse the response body to JSON
             // console.log(responseData)
             const { status, data } = responseData;
-          
+
             if (status && data) {
                 const { order_id, shipment_id, awb_number, courier_id, courier_name, additional_info, payment_type, label, manifest } = data;
 
@@ -324,7 +324,8 @@ exports.createShipments = catchAsyncErrors(async (req, res, next) => {
     }
 });
 
-exports.getTrackingDetails=catchAsyncErrors(async(req,res,next)=>{
+
+exports.getTrackingDetails = catchAsyncErrors(async (req, res, next) => {
     const { razorpay_order_id } = req.body;
     try {
         const order = await SaveOrder.findOne({ razorpay_order_id });
@@ -340,6 +341,12 @@ exports.getTrackingDetails=catchAsyncErrors(async(req,res,next)=>{
     }
 
 });
+
+
+exports.GetAllOrder = catchAsyncErrors(async (req, res, next) => {
+    const allOrder = await SaveOrder.find();
+    res.status(500).json({ success: true, allOrder });
+})
 
 
 
