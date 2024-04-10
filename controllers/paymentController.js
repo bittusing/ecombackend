@@ -10,7 +10,7 @@ const Razorpay = require('razorpay');
 const instance = new Razorpay({
     key_id: 'rzp_test_4cr8rot2NvnR3G',
     key_secret: 'u3zXYfGTen225BMRuYBqsaOt',
-});
+}); 
 
 
 
@@ -329,7 +329,6 @@ exports.getTrackingDetails = catchAsyncErrors(async (req, res, next) => {
     const { razorpay_order_id } = req.body;
     try {
         const order = await SaveOrder.findOne({ razorpay_order_id });
-
         // Check if the order exists
         if (!order) {
             return res.status(404).json({ success: false, message: "Order not found" });
@@ -339,8 +338,7 @@ exports.getTrackingDetails = catchAsyncErrors(async (req, res, next) => {
         console.error('Error creating shipment:', error);
         res.status(500).json({ success: false, message: "Internal server error" });
     }
-
-});
+});  
 
 
 exports.GetAllOrder = catchAsyncErrors(async (req, res, next) => {
