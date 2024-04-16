@@ -11,7 +11,7 @@ const instance = new Razorpay({
     key_id: 'rzp_test_4cr8rot2NvnR3G',
     key_secret: 'u3zXYfGTen225BMRuYBqsaOt',
 }); 
-
+ 
 
 
 // Create a Nodemailer transporter
@@ -343,6 +343,11 @@ exports.getTrackingDetails = catchAsyncErrors(async (req, res, next) => {
 
 exports.GetAllOrder = catchAsyncErrors(async (req, res, next) => {
     const allOrder = await SaveOrder.find();
+    res.status(200).json({ success: true, allOrder });
+})
+
+exports.GetOrderDetails = catchAsyncErrors(async (req, res, next) => {
+    const allOrder = await SaveOrder.findById(req.params.id);
     res.status(200).json({ success: true, allOrder });
 })
 
