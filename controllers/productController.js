@@ -174,7 +174,7 @@ exports.getAllproductbyid = catchAsyncErrors(async (req, res, next) => {
   }
   
   // Fetch reviews associated with the product
-  const reviews = await Review.find({ product_id: product._id });
+  const reviews = await Review.find({ product_id:req.params.id});  
 
   // Calculate totalReviews and averageRating
   const totalReviews = reviews.length;
@@ -184,6 +184,8 @@ exports.getAllproductbyid = catchAsyncErrors(async (req, res, next) => {
   // Add totalReviews and averageRating to the product object
   product.totalReviews = totalReviews;
   product.averageRating = parseFloat(averageRating); // Convert averageRating to a float
+
+  
   
   // Send response with the product data
   res.status(200).json({

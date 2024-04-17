@@ -35,6 +35,14 @@ const productSchema = new mongoose.Schema({
     images: [
        
     ],
+    totalReviews: {
+        type: Number,
+        default: 0 
+      },
+      averageRating: {
+        type: Number,
+        default: 0
+      },
     weightwishprice: [
 
     ],  
