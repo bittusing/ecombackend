@@ -146,7 +146,7 @@ exports.getAllproduct = catchAsyncErrors(async (req, res, next) => {
     const reviews = await Review.find({ product_id: product._id });
     const totalReviews = reviews.length;
     let totalRating = 0;
-   for (const review of reviews) {
+   for (const review of reviews) { 
       totalRating += review.rating;
     }
     const averageRating = totalReviews > 0 ? (totalRating / totalReviews).toFixed(1) : 0;

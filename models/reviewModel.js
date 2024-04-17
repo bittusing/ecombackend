@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const reviewSchema = new mongoose.Schema({
 
     product_id: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
         required: true,
     },
     user_id: {
