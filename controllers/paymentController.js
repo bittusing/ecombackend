@@ -134,6 +134,7 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
         await Cart.deleteMany({ session_id: updatedOrder?.session_id });
         res.redirect(
             `https://www.decasys.in/SuccessPage?reference=${razorpay_order_id}`
+            // `http://localhost:3000/SuccessPage?reference=${razorpay_order_id}`
         );
     } else {
         res.redirect(
@@ -241,7 +242,7 @@ exports.createShipments = catchAsyncErrors(async (req, res, next) => {
             url: 'https://api.nimbuspost.com/v1/shipments',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTE2ODkwMzAsImp0aSI6ImxUTzVLcVJ3SjVBV09nZFFMKzlqREMxUG0wUTNHSEI2aGdORUpFc0hRTjA9IiwibmJmIjoxNzExNjg5MDMwLCJleHAiOjE3MTE2OTk4MzAsImRhdGEiOnsidXNlcl9pZCI6IjE0NDMxNCIsInBhcmVudF9pZCI6IjAifX0.K89TIgG2gaPcXbc4eQ0AzwDh5RW5Kbyctuo_uBwqTHQOqdiq8tvuzmcGybBQnLlZTYazd5XxX9-qY5275Rs0vg'
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MTMzNTM3NzgsImp0aSI6IkxNOEJwbFdCdm02bGc1aStxYVlrMnNLb2cxdFNpZVRZc1JjaGlvVzNpUHM9IiwibmJmIjoxNzEzMzUzNzc4LCJleHAiOjE3MTMzNjQ1NzgsImRhdGEiOnsidXNlcl9pZCI6IjE0NDMxNCIsInBhcmVudF9pZCI6IjAifX0.LKCEekuImZHZgbmOXizqacq00dhvbryugmM8gxJBasYexNxlKqARFR49XQDcsxZEiZtq7KYQFsSxmEUJwsVLRg'
             },
             body: JSON.stringify({
                 "order_number": razorpay_order_id,
