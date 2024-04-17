@@ -73,8 +73,9 @@ exports.BulkProductDelete = catchAsyncErrors(async (req, res, next) => {
 
 
 // get All lost reason
+
 exports.getAllproduct = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.aggregate([
+  const products = await Product.aggregate([ 
     {
       $lookup: {
         from: "categories",
@@ -137,26 +138,60 @@ exports.getAllproduct = catchAsyncErrors(async (req, res, next) => {
         ],
         as: "brand",
       }
+    },
+  
+  ]);
+    for (let i = 0; i < products.length; i++) {
+    const product = products[i];
+    const reviews = await Review.find({ product_id: product._id });
+    const totalReviews = reviews.length;
+    let totalRating = 0;
+   for (const review of reviews) {
+      totalRating += review.rating;
     }
-  ])
+    const averageRating = totalReviews > 0 ? (totalRating / totalReviews).toFixed(1) : 0;
+    product.totalReviews = totalReviews;
+    product.averageRating = averageRating;
+  }
 
   res.status(200).json({
     success: true,
-    product
-  })
+    products
+  });
 });
+
+
+
 
 ////get getAllproductbyid 
 exports.getAllproductbyid = catchAsyncErrors(async (req, res, next) => {
+  // Fetch the product by ID
   const product = await Product.findById(req.params.id);
+  
+  // If product is not found, return an error
   if (!product) {
-    return next(new ErrorHander("product is not found", 404));
+    return next(new ErrorHander("Product not found", 404));
   }
-  res.status(201).json({
+  
+  // Fetch reviews associated with the product
+  const reviews = await Review.find({ product_id: product._id });
+
+  // Calculate totalReviews and averageRating
+  const totalReviews = reviews.length;
+  const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+  const averageRating = totalReviews > 0 ? (totalRating / totalReviews).toFixed(1) : 0;
+
+  // Add totalReviews and averageRating to the product object
+  product.totalReviews = totalReviews;
+  product.averageRating = parseFloat(averageRating); // Convert averageRating to a float
+  
+  // Send response with the product data
+  res.status(200).json({
     success: true,
     product,
-  })
+  });
 });
+
 
 ////  update Lost Reason 
 
