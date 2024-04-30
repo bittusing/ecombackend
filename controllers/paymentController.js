@@ -285,7 +285,7 @@ exports.createShipments = catchAsyncErrors(async (req, res, next) => {
             if (error) {
                 console.error('Error creating shipment:', error);
                 return res.status(500).json({ success: false, message: "Error creating shipment" });
-            }
+            } 
 
             const responseData = JSON.parse(response.body); // Parse the response body to JSON
             // console.log(responseData)
