@@ -304,14 +304,17 @@ exports.getAllProductByCategory = async (req, res, next) => {
       return next(new ErrorHander("Products not found", 404));
     }
 
-    // Calculate total rating for products
-    let totalRating = 0;
-    for (const product of products) {
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
       const reviews = await Review.find({ product_id: product._id });
-      for (const review of reviews) {
+      const totalReviews = reviews.length;
+      let totalRating = 0;
+     for (const review of reviews) { 
         totalRating += review.rating;
       }
-      product.rating = Math.round(totalRating / reviews.length);
+      const averageRating = totalReviews > 0 ? (totalRating / totalReviews).toFixed(1) : 0;
+      product.totalReviews = totalReviews;
+      product.averageRating = averageRating;
     }
 
     // Send response with products
@@ -336,14 +339,17 @@ exports.getAllProductBySubCategory = async (req, res, next) => {
       return next(new ErrorHander("Products not found", 404));
     }
 
-    // Calculate total rating for products
-    let totalRating = 0;
-    for (const product of products) {
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
       const reviews = await Review.find({ product_id: product._id });
-      for (const review of reviews) {
+      const totalReviews = reviews.length;
+      let totalRating = 0;
+     for (const review of reviews) { 
         totalRating += review.rating;
       }
-      product.rating = Math.round(totalRating / reviews.length);
+      const averageRating = totalReviews > 0 ? (totalRating / totalReviews).toFixed(1) : 0;
+      product.totalReviews = totalReviews;
+      product.averageRating = averageRating;
     }
 
     // Send response with products
@@ -367,14 +373,17 @@ exports.getAllProductByBrand = async (req, res, next) => {
       return next(new ErrorHander("Products not found", 404));
     }
 
-    // Calculate total rating for products
-    let totalRating = 0;
-    for (const product of products) {
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
       const reviews = await Review.find({ product_id: product._id });
-      for (const review of reviews) {
+      const totalReviews = reviews.length;
+      let totalRating = 0;
+     for (const review of reviews) { 
         totalRating += review.rating;
       }
-      product.rating = Math.round(totalRating / reviews.length);
+      const averageRating = totalReviews > 0 ? (totalRating / totalReviews).toFixed(1) : 0;
+      product.totalReviews = totalReviews;
+      product.averageRating = averageRating;
     }
 
     // Send response with products
