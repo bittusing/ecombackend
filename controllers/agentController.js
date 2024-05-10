@@ -16,7 +16,7 @@ exports.createAgent = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-///// Addresss Add 
+///// Addresss Add    
 exports.AddAgentAddress = catchAsyncErrors(async (req, res, next) => {
   const agentAddress = await AgentAddress.create(req.body);
   res.status(201).json({
@@ -25,6 +25,21 @@ exports.AddAgentAddress = catchAsyncErrors(async (req, res, next) => {
     message: "Address Added Successfully...."
   });
 })
+
+///// get  address detail
+exports.getAgentAddress = catchAsyncErrors(async (req, res, next) => {
+  const user_id =req.params.id;
+  
+  const agentAddress = await AgentAddress.find({user_id});
+  res.status(201).json({
+    success: true,
+    agentAddress,
+   
+  });
+})
+
+
+
 
 /////// Delete Address
 
@@ -55,6 +70,7 @@ exports.EditAgentAddress = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     updateagent,
+    message: "Address Update Successfully...."
   });
 });
 

@@ -20,7 +20,7 @@ const category=require('./routes/categoryRoute')
 const product=require('./routes/productRoute');
 const cart=require('./routes/cartRoute');
 const payment=require('./routes/paymentRoutes');
-
+const countrystate=require('./routes/country_stateRoute');
 
 app.use(cors());   
 app.use("/api/v1/",agent);
@@ -29,7 +29,7 @@ app.use("/api/v1/",category);
 app.use("/",product);
 app.use("/api/v1/",cart);  
 app.use("/api/v1/",payment);
-
+app.use("/api/v1/",countrystate);
 
 app.get("/api/getkey", (req, res) =>
   res.status(200).json({ key: process.env.RAZORPAY_API_KEY })

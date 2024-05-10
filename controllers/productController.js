@@ -291,7 +291,7 @@ exports.getAllReviews = async (req, res, next) => {
       success: false,
       error: 'Internal Server Error'
     });
-  }
+  } 
 };
 
 exports.getAllProductByCategory = async (req, res, next) => {
