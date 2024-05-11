@@ -38,6 +38,12 @@ const agentSchema = new mongoose.Schema({
   profile_image: {
     type: String,
   },
+  company_name: {
+    type: String,
+  },
+  gstno: {
+    type: String,
+  },
   pimg: {
     type: String,
   },
