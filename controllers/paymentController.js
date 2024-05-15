@@ -7,6 +7,7 @@ const Cart = require('../models/cartModel.js');
 const request = require('request');
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const Razorpay = require('razorpay');
+const { ObjectId } = require('mongoose').Types;
 const instance = new Razorpay({
     key_id: 'rzp_test_4cr8rot2NvnR3G',
     key_secret: 'u3zXYfGTen225BMRuYBqsaOt',
@@ -209,6 +210,42 @@ exports.GetOrderBySessionIdOrUserId = catchAsyncErrors(async (req, res, next) =>
         res.status(500).json({ success: false, message: "Internal server error" });
     }
 });
+
+exports.GetOrderByOrderId = catchAsyncErrors(async (req, res, next) => {
+    const orderid = req.params.id;
+    console.log(orderid)
+    const allOrder = await SaveOrder.aggregate([
+        {
+            $match: {
+                _id:  new ObjectId(orderid),
+            }
+        },
+        {
+            $lookup: {
+                from: "shipments",
+                let: { razorpay_order_idString: "$razorpay_order_id" },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $eq: ["$razorpay_order_id", "$$razorpay_order_idString"],
+                            },
+                        },
+                    },
+                ],
+                as: "tracking_details",
+            },
+        },
+    ]);
+
+    // Assuming you want to send back the first matched order
+    if (allOrder.length === 0) {
+        return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    res.status(200).json({ success: true, order: allOrder[0] });
+});
+
 
 
 exports.createShipments = catchAsyncErrors(async (req, res, next) => {
