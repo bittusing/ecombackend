@@ -6,6 +6,7 @@ const sendToken = require("../utils/jwtToken");
 const LoginHistory = require("../models/LoginHistory");
 const bcrypt = require('bcryptjs');
 const useragent = require('express-useragent');
+const { messaging } = require("firebase-admin");
 
 exports.createAgent = catchAsyncErrors(async (req, res, next) => {
   const agent = await Agent.create(req.body);
@@ -28,13 +29,13 @@ exports.AddAgentAddress = catchAsyncErrors(async (req, res, next) => {
 
 ///// get  address detail
 exports.getAgentAddress = catchAsyncErrors(async (req, res, next) => {
-  const user_id =req.params.id;
-  
-  const agentAddress = await AgentAddress.find({user_id});
+  const user_id = req.params.id;
+
+  const agentAddress = await AgentAddress.find({ user_id });
   res.status(201).json({
     success: true,
     agentAddress,
-   
+
   });
 })
 
@@ -61,7 +62,7 @@ exports.EditAgentAddress = catchAsyncErrors(async (req, res, next) => {
   const agentAddress = await AgentAddress.findById(req.params.id);
   if (!agentAddress) {
     return next(new ErrorHander("Agent Address is not", 400));
-  } 
+  }
   const updateagent = await AgentAddress.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -232,10 +233,28 @@ exports.EditAgentDetails = catchAsyncErrors(async (req, res, next) => {
 
 })
 
-
-
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
-  //    const {email,new_password}=req.body;
+  const { agent_email, newpassword, confirmdpassword } = req.body.forgotPass;
+  
+  const agent = await Agent.find({ agent_email });
+  if (agent.length === 0) {
+    return next(new ErrorHander("Email Id is not Registered", 400));
+  }
+  if (newpassword !== confirmdpassword) {
+    return next(new ErrorHander("New password and confirmed password are not the same", 400));
+  }
+  const hashedPassword = await bcrypt.hash(newpassword, 10);
+  const updateAgent = await Agent.updateOne(
+    { agent_email },
+    { agent_password: hashedPassword },
+    { new: true, runValidators: true, useFindAndModify: false }
+  );
+      
+  res.status(200).json({
+    success: true,
+    message:"Password Update Successfully",
+    updateAgent,
+  });
 
 });
 
