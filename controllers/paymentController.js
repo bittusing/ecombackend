@@ -199,6 +199,7 @@ exports.GetOrderBySessionIdOrUserId = catchAsyncErrors(async (req, res, next) =>
                     as: "tracking_details",
                 },
             },
+            { $sort: { createdAt: -1 } } 
         ]);
 
         res.status(200).json({

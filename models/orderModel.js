@@ -5,15 +5,15 @@ const orderSchema = new mongoose.Schema({
         {
             product_id: {
                 type: String,
-                trim:true,
+                trim: true,
             },
-            productimg:{
-                type:String,
-                trim:true,
+            productimg: {
+                type: String,
+                trim: true,
             },
             product_name: {
                 type: String,
-                trim:true,
+                trim: true,
             },
             product_quantity: {
                 type: Number,
@@ -24,7 +24,7 @@ const orderSchema = new mongoose.Schema({
             product_price: {
                 type: Number,
             },
-        } 
+        }
     ],
     payment_status: {
         type: String,
@@ -82,6 +82,10 @@ const orderSchema = new mongoose.Schema({
     razorpay_signature: {
         type: String,
     },
-});
+},
+    {
+        timestamps: true,
+    }
+);
 module.exports = mongoose.model("Order", orderSchema);
 
