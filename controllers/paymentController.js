@@ -79,6 +79,7 @@ exports.checkout = catchAsyncErrors(async (req, res, next) => {
         amount: Number(req.body.amount * 100),
         currency: "INR",
     };
+    console.log(req.body)
     const order = await instance.orders.create(options);
     const newdata = await { ...req.body, razorpay_order_id: order?.id }
     await SaveOrder.create(newdata);
