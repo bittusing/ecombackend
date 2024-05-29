@@ -28,7 +28,7 @@ const orderSchema = new mongoose.Schema({
     ],
     payment_status: {
         type: String,
-        default: "pennding"
+        default: "Pending"
     },
     user_name: {
         type: String,

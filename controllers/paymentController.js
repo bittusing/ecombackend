@@ -109,7 +109,7 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
 
         const updatedOrder = await SaveOrder.findOneAndUpdate(
             { razorpay_order_id },
-            { razorpay_payment_id, razorpay_signature, payment_status: 'success' },
+            { razorpay_payment_id, razorpay_signature, payment_status: 'Success' },
             { new: true } // Return the updated document
         );
 
