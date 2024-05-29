@@ -61,13 +61,35 @@ const orderSchema = new mongoose.Schema({
     pincode: {
         type: String,
     },
-    amount: {
-        type: Number,
-    },
-
-
     address: {
         type: String,
+    },
+
+    ////for other shipping address
+    Counrty1: {
+        type: String,
+    },
+    state1: {
+        type: String,
+    },
+    city1: {
+        type: String,
+    },
+    pincode1: {
+        type: String,
+    },
+    address1: {
+        type: String,
+    },
+    user_name1: {
+        type: String,
+    },
+    mobile1: {
+        type: String,
+    },
+
+    amount: {
+        type: Number,
     },
     user_session_id: {
         type: String,

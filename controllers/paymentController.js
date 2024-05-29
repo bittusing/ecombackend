@@ -79,7 +79,6 @@ exports.checkout = catchAsyncErrors(async (req, res, next) => {
         amount: Number(req.body.amount * 100),
         currency: "INR",
     };
-    console.log(req.body)
     const order = await instance.orders.create(options);
     const newdata = await { ...req.body, razorpay_order_id: order?.id }
     await SaveOrder.create(newdata);
@@ -296,13 +295,13 @@ exports.createShipments = catchAsyncErrors(async (req, res, next) => {
                 "package_height": 10,
                 "request_auto_pickup": "yes",
                 "consignee": {
-                    "name": order.user_name,
-                    "address": order.address,
-                    "address_2": order.address,
-                    "city": order.city,
-                    "state": order.state,
-                    "pincode": order.pincode,
-                    "phone": order.mobile
+                    "name": order.user_name1?order.user_name1:order.user_name,
+                    "address": order.address1?order.address1:order.address,
+                    "address_2": order.address1?order.address1:order.address,
+                    "city": order.city1?order.city1:order.city,
+                    "state": order.state1?order.state1:order.state,
+                    "pincode": order.pincode1?order.pincode1:order.pincode,
+                    "phone": order.mobile1?order.mobile1:order.mobile
                 },
                 "pickup": {
                     "warehouse_name": "WAREHOUSE 162-A",
