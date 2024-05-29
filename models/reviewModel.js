@@ -25,6 +25,9 @@ const reviewSchema = new mongoose.Schema({
         type: String,
 
     },
+    images: [
+       
+    ],
     title: {
         type: String,
   },

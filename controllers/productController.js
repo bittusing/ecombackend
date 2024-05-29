@@ -243,8 +243,10 @@ exports.updateproduct = catchAsyncErrors(async (req, res, next) => {
 
 /////  Add Review of Product 
 exports.AddRevied = catchAsyncErrors(async (req, res, next) => {
-  const { product_id, name, rating, title, comment } = req.body;
+  const { product_id, name, rating, title, comment  } = req.body;
   
+
+
   // Check if product_id is provided
   if (!product_id) {
     return next(new ErrorHander("Product ID is required", 404));
@@ -258,13 +260,27 @@ exports.AddRevied = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHander("Product not found", 404));
   }
 
+  let images =  []; 
+
+  if (req.files) {
+    Object.keys(req.files).forEach((key) => {
+     req.files[key].forEach((file) => {
+        images.push({
+          image_name: file.filename,
+          url: file.path,
+        });
+      });
+    });
+  }
+ 
   // Create a new review using the request body data
   const review = await Review.create({
     product_id,
     name,
     rating,
     title,
-    comment
+    comment,
+    images:images,
   });
 
   // Send response
@@ -274,6 +290,8 @@ exports.AddRevied = catchAsyncErrors(async (req, res, next) => {
     review,
   });
 });
+
+
 
 
 // get Product Review 
