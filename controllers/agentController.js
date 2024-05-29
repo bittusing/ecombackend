@@ -7,6 +7,25 @@ const LoginHistory = require("../models/LoginHistory");
 const bcrypt = require('bcryptjs');
 const useragent = require('express-useragent');
 const { messaging } = require("firebase-admin");
+const nodemailer = require('nodemailer');
+
+// const transporter = nodemailer.createTransport({
+//   host: 'smtp.ethereal.email',
+//   port: 587,
+//   auth: {
+//       user: 'myles9@ethereal.email',
+//       pass: 'ekGav56KwBgt1Re8cD'
+//   }
+// });
+
+// Set up the nodemailer transporter for Gmail
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'contact@decasys.in', // Your Gmail address
+    pass: 'jrrn hfoz vrie jcib'    // Your Gmail password or app password if 2FA is enabled
+  }
+});
 
 exports.createAgent = catchAsyncErrors(async (req, res, next) => {
   const agent = await Agent.create(req.body);
@@ -39,6 +58,55 @@ exports.getAgentAddress = catchAsyncErrors(async (req, res, next) => {
   });
 })
 
+
+
+
+
+function generateOtp() {
+  return Math.floor(Math.random() * 900000) + 100000;
+}
+
+// Function to generate the HTML message containing the OTP
+function generateMessage(otp) {
+  return `<span>Your OTP is ${otp}. Do not share it with anyone.</span>`;
+}
+////////  forgotpassword for otp
+exports.forgotPasswordOtp = catchAsyncErrors(async (req, res, next) => {
+  const { agent_email } = req.body.forgotPass;
+  
+  const agent = await Agent.findOne({ agent_email });
+
+  if (agent) {
+    const otp = generateOtp();
+    const message1 = generateMessage(otp);
+
+    const mailOptions = {
+      from: 'contact@decasys.in',
+      to: agent_email,
+      subject: 'Your Password Reset OTP',
+      html: message1
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error occurred while sending email:', error);
+        return res.status(200).json({
+          success: false,
+          message: "There was a problem sending the email",
+        });
+      } else {
+        // console.log('Email sent:', info.response);
+        return res.status(200).json({
+          success: true,
+          message: "OTP sent to your email address",
+          otp
+        });
+      }
+    });
+  } else {
+    return next(new ErrorHander("Please enter a registered email address", 404));
+  }
+});
 
 
 

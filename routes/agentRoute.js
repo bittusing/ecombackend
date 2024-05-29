@@ -2,7 +2,9 @@ const express=require('express');
 
 const { createAgent,getAllAgent,getAgentDetails
     ,deleteAgent, loginAgent, updateClientAccess,
-    EditAgentDetails,AddAgentAddress,getAgentAddress,deleteAgentAddress ,forgotPassword,EditAgentAddress} = require('../controllers/agentController');
+    EditAgentDetails,AddAgentAddress,getAgentAddress
+    ,deleteAgentAddress ,forgotPassword,EditAgentAddress
+,forgotPasswordOtp} = require('../controllers/agentController');
 
 const router=express.Router();
   
@@ -23,6 +25,6 @@ router.route("/EditAgentDetails/:id").put(EditAgentDetails);
 router.route("/EditAgentAddress/:id").put(EditAgentAddress);
 router.route("/deleteAgentAddress/:id").delete(deleteAgentAddress); 
 
-
+router.route("/forgotPasswordOtp").post(forgotPasswordOtp); 
 router.route("/forgotPassword").post(forgotPassword); 
 module.exports=router;      
