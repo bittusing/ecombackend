@@ -72,7 +72,7 @@ function generateMessage(otp) {
 }
 ////////  forgotpassword for otp
 exports.forgotPasswordOtp = catchAsyncErrors(async (req, res, next) => {
-  const { agent_email } = req.body.forgotPass;
+  const { agent_email } = req.body;
   
   const agent = await Agent.findOne({ agent_email });
 
@@ -302,8 +302,7 @@ exports.EditAgentDetails = catchAsyncErrors(async (req, res, next) => {
 })
 
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
-  const { agent_email, newpassword, confirmdpassword } = req.body.forgotPass;
-  
+  const { agent_email, newpassword, confirmdpassword } = req.body;
   const agent = await Agent.find({ agent_email });
   if (agent.length === 0) {
     return next(new ErrorHander("Email Id is not Registered", 400));
