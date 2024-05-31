@@ -97,7 +97,7 @@ exports.getallGenerateCoupon = catchAsyncErrors(async (req, res, next) => {
 ////// delete coupon
 exports.DeleteCoupon = catchAsyncErrors(async (req, res, next) => {
 
-  const coupon = await Coupon.fi(req.body.params);
+  const coupon = await Coupon.find(req.body.params);
   await coupon.deleteOne();
   res.status(201).json({
     success: true,
