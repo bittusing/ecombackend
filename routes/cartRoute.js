@@ -1,6 +1,7 @@
 const express=require('express');
 
-const { addCart ,deleteaddcart,getAllCartBySessionId ,removecartbycartid, addCartDecreaseQuantity} = require('../controllers/cartControllers');
+const { addCart ,deleteaddcart,getAllCartBySessionId ,removecartbycartid,
+    getallGenerateCoupon, addCartDecreaseQuantity,GenerateCoupon} = require('../controllers/cartControllers');
 const {getAllwishlistByUserId,deleteaddwishlist,addWishlist ,removewishlistbycartid}=require('../controllers/wishlistController');
 
 const router=express.Router();
@@ -16,5 +17,9 @@ router.route("/deleteaddwishlist").delete(deleteaddwishlist);
 router.route("/addWishlist").post(addWishlist);   
 router.route("/getAllwishlistByUserId").post(getAllwishlistByUserId); 
 
+
+//////coupon
+router.route("/GenerateCoupon").post(GenerateCoupon); 
+router.route("/getallGenerateCoupon").get(getallGenerateCoupon); 
  
 module.exports=router;     
