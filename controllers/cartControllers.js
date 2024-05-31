@@ -120,14 +120,10 @@ exports.DeleteCoupon = catchAsyncErrors(async (req, res, next) => {
 
 exports.ApplyCouponCode = catchAsyncErrors(async (req, res, next) => {
   const { coupon_code, minimum_apply_value } = req.body;
+ const coupon = await Coupon.findOne({ coupon_code, coupon_status: "Enable" });
 
-  // Find the coupon with the given code and ensure it is enabled
-  const coupon = await Coupon.findOne({ coupon_code, coupon_status: "Enable" });
-
-  if (coupon) {
-    const coupon_minimum_apply_amount = coupon.coupon_minimum_apply_amount;
-
-    if (minimum_apply_value >= coupon_minimum_apply_amount) {
+ if (coupon) {
+    if (minimum_apply_value >= coupon?.coupon_minimun_apply_amount) {
       res.status(201).json({
         success: true,
         message: `Successfully applied this coupon`,
@@ -136,7 +132,7 @@ exports.ApplyCouponCode = catchAsyncErrors(async (req, res, next) => {
     } else {
       res.status(201).json({
         success: false,
-        message: `Minimum Rs ${coupon_minimum_apply_amount} amount required for this coupon`,
+        message: `Minimum Rs ${coupon?.coupon_minimun_apply_amount} amount required for this coupon`,
         coupon
       });
     }
