@@ -21,6 +21,6 @@ router.route("/getAllwishlistByUserId").post(getAllwishlistByUserId);
 //////coupon
 router.route("/GenerateCoupon").post(GenerateCoupon); 
 router.route("/getallGenerateCoupon").get(getallGenerateCoupon); 
-router.route("/DeleteCoupon").delete(DeleteCoupon); 
+router.route("/DeleteCoupon/:id").delete(DeleteCoupon); 
 router.route("/ApplyCouponCode").get(ApplyCouponCode); 
 module.exports=router;     
