@@ -96,13 +96,22 @@ exports.getallGenerateCoupon = catchAsyncErrors(async (req, res, next) => {
 
 ////// delete coupon
 exports.DeleteCoupon = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  // Find and delete the coupon by ID
+  const coupon = await Coupon.findByIdAndDelete({_id:id});
 
-  const coupon = await Coupon.findByIdAndDelete(req.body.params);
-  res.status(201).json({
-    success: true,
-    message: 'Coupon Delete Successfully',
-  });
-})
+  if (coupon) {
+    res.status(200).json({
+      success: true,
+      message: 'Coupon deleted successfully',
+    });
+  } else {
+    res.status(404).json({
+      success: false,
+      message: 'Coupon not found',
+    });
+  }
+});
 
 /////// Edit coupon
 
