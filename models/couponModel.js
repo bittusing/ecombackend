@@ -14,6 +14,10 @@ const couponSchema = new mongoose.Schema(
             type: Number,
             trim: true,
         },
+        coupon_type: {
+            type: String,
+            trim: true,
+        },
         coupon_minimun_apply_amount: {
             type: Number,
             trim: true,
