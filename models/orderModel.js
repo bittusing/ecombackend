@@ -91,6 +91,9 @@ const orderSchema = new mongoose.Schema({
     amount: {
         type: Number,
     },
+    coupanAmount:{
+        type: Number,
+    },
     user_session_id: {
         type: String,
     },
