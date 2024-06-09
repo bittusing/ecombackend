@@ -66,8 +66,18 @@ exports.removecartbycartid = catchAsyncErrors(async (req, res, next) => {
 
 /// get by session id 
 exports.getAllCartBySessionId = catchAsyncErrors(async (req, res, next) => {
-  const { session_id } = req.body;
-  const cart = await Cart.find({ session_id });
+  const { session_id , user_id} = req.body;
+  // const cart = await Cart.find({ session_id || user_id });
+  // Create a query object to use with MongoDB's $or operator
+  const query = {
+    $or: [
+      { session_id: session_id },
+      { user_id: user_id }
+    ]
+  };
+
+  // Find carts matching either session_id or user_id
+  const cart = await Cart.find(query);
   res.status(201).json({
     success: true,
     message: "Get All Successfully",
