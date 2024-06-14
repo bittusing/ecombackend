@@ -9,8 +9,8 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const Razorpay = require('razorpay');
 const { ObjectId } = require('mongoose').Types;
 const instance = new Razorpay({
-    key_id: 'rzp_test_4cr8rot2NvnR3G',
-    key_secret: 'u3zXYfGTen225BMRuYBqsaOt',
+    key_id: 'rzp_live_MPhLpCWE9p01d7',
+    key_secret: 'G4L0qb1wx3oa9KvPOexxaiX8',
 }); 
  
 
