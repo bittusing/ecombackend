@@ -214,6 +214,12 @@ exports.updateproduct = catchAsyncErrors(async (req, res, next) => {
     product.ProductOverviewDiscription = req.body.ProductOverviewDiscription || product.ProductOverviewDiscription;
     product.SupplimentFacts = req.body.SupplimentFacts || product.SupplimentFacts;
     product.sku = req.body.sku || product.sku;
+    product.metaDes = req.body.metaDes || product.metaDes;
+    product.metaKey = req.body.metaKey || product.metaKey;
+    product.metaTitle = req.body.metaTitle || product.metaTitle;
+    product.UPCCode = req.body.UPCCode || product.UPCCode;
+    product.ProductCode = req.body.ProductCode || product.ProductCode;
+    product.bestbefore = req.body.bestbefore || product.bestbefore;
  
     let images = product.images || []; 
 
