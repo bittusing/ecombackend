@@ -58,6 +58,27 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         // required:[true,"Please Enter Product Category"]
     },
+    bestbefore:{
+        type: String,
+    },
+    ProductCode:{
+        type: String,
+    },
+    UPCCode:{
+        type: String,
+    },
+    metaDes:{
+        type: String,
+    },
+    metaKey:{
+        type: String,
+    },
+    metaTitle:{
+        type: String,
+    },
+    seoUrl:{
+        type: String,
+    },
     Stock: {
         type: Number,
         required: [true, "please enter product stock"],
