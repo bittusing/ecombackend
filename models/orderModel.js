@@ -107,6 +107,10 @@ const orderSchema = new mongoose.Schema({
     razorpay_signature: {
         type: String,
     },
+    invoice_no: {
+        type: String,
+    },
+
 },
     {
         timestamps: true,
