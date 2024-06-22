@@ -79,7 +79,7 @@ const getLastInvoiceNumber = async () => {
 
 const getLastOrderNumber = async () => {
     const lastOrder = await SaveOrder.findOne({}).sort({ order_no: -1 }).exec();
-    return lastOrder ? parseInt(lastOrder.order_no.slice(2)) : 100000; 
+    return lastOrder ? parseInt(lastOrder?.order_no?.slice(2)) : 100000; 
 };
 
 const generateInvoiceNumber = (lastInvoiceNo) => {
