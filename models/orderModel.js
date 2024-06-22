@@ -110,6 +110,9 @@ const orderSchema = new mongoose.Schema({
     invoice_no: {
         type: String,
     },
+    order_no:{
+        type: String,  
+    },
 
 },
     {

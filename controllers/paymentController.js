@@ -74,28 +74,39 @@ function generateInvoice(order) {
 
 const getLastInvoiceNumber = async () => {
     const lastInvoice = await SaveOrder.findOne({}).sort({ invoice_no: -1 }).exec();
-    return lastInvoice ? lastInvoice.invoice_no : 'DE100000'; 
+    return lastInvoice ? lastInvoice.invoice_no : 24000; 
 };
 
-const generateInvoiceNumber = (lastNo) => {
+const getLastOrderNumber = async () => {
+    const lastOrder = await SaveOrder.findOne({}).sort({ order_no: -1 }).exec();
+    return lastOrder ? parseInt(lastOrder.order_no.slice(2)) : 100000; 
+};
+
+const generateInvoiceNumber = (lastInvoiceNo) => {
+    return lastInvoiceNo + 1;
+};
+
+const generateOrderNumber = (lastOrderNo) => {
     const prefix = 'DE';
-    const lastNumber = parseInt(lastNo.slice(2));
-    const newNumber = lastNumber + 1;
+    const newNumber = lastOrderNo + 1;
     return `${prefix}${newNumber.toString().padStart(6, '0')}`;
 };
 
 exports.checkout = catchAsyncErrors(async (req, res, next) => {
-     const lastInvoiceNo = await getLastInvoiceNumber();
-     const newInvoiceNo = generateInvoiceNumber(lastInvoiceNo);
+    const lastInvoiceNo = await getLastInvoiceNumber();
+    const lastOrderNo = await getLastOrderNumber();
+    const newInvoiceNo = generateInvoiceNumber(lastInvoiceNo);
+    const newOrderNo = generateOrderNumber(lastOrderNo);
 
     const options = {
         amount: Number(req.body.amount * 100),
         currency: "INR",
     };
     const order = await instance.orders.create(options);
-    const invoice_no=  lastno+1;
+   
 
-    const newdata = await { ...req.body, razorpay_order_id: order?.id, invoice_no: newInvoiceNo }
+    const newdata = await { ...req.body, razorpay_order_id: order?.id,  invoice_no: newInvoiceNo,
+        order_no: newOrderNo }
 
     await SaveOrder.create(newdata);
     res.status(200).json({
