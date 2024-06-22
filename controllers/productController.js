@@ -349,11 +349,11 @@ exports.AddRevied = catchAsyncErrors(async (req, res, next) => {
 
 
 
-// get Product Review 
+// get Product Review for web
 exports.getAllReviews = async (req, res, next) => {
   try {
   
-    const reviews = await Review.find({ product_id:req.params.id });
+    const reviews = await Review.find({ product_id:req.params.id , approved: 1 });
 
     res.status(200).json({
       success: true,
@@ -366,6 +366,25 @@ exports.getAllReviews = async (req, res, next) => {
     });
   } 
 };
+
+// get Product Review for admin
+exports.getAllReviewsadmin = async (req, res, next) => {
+  try {
+  
+    const reviews = await Review.find({ product_id:req.params.id  });
+
+    res.status(200).json({
+      success: true,
+      reviews
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: 'Internal Server Error'
+    });
+  } 
+};
+
 
 //get perticuler review 
 exports.getPerticulerReviews = async (req, res, next) => {
