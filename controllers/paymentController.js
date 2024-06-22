@@ -9,8 +9,13 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const Razorpay = require('razorpay');
 const { ObjectId } = require('mongoose').Types;
 const instance = new Razorpay({
+    //live
     key_id: 'rzp_live_MPhLpCWE9p01d7',
     key_secret: 'G4L0qb1wx3oa9KvPOexxaiX8',
+
+    ////test
+    // key_id:"rzp_test_4cr8rot2NvnR3G",
+    // key_secret:"u3zXYfGTen225BMRuYBqsaOt",
 }); 
  
 
@@ -74,7 +79,7 @@ function generateInvoice(order) {
 
 const getLastInvoiceNumber = async () => {
     const lastInvoice = await SaveOrder.findOne({}).sort({ invoice_no: -1 }).exec();
-    return lastInvoice ? lastInvoice.invoice_no : 24000; 
+    return lastInvoice ? lastInvoice?.invoice_no : 24000; 
 };
 
 const getLastOrderNumber = async () => {
@@ -83,7 +88,7 @@ const getLastOrderNumber = async () => {
 };
 
 const generateInvoiceNumber = (lastInvoiceNo) => {
-    return lastInvoiceNo + 1;
+    return parseInt(lastInvoiceNo) + parseInt(1);
 };
 
 const generateOrderNumber = (lastOrderNo) => {
@@ -94,10 +99,14 @@ const generateOrderNumber = (lastOrderNo) => {
 
 exports.checkout = catchAsyncErrors(async (req, res, next) => {
     const lastInvoiceNo = await getLastInvoiceNumber();
+    
     const lastOrderNo = await getLastOrderNumber();
+    
     const newInvoiceNo = generateInvoiceNumber(lastInvoiceNo);
+   
     const newOrderNo = generateOrderNumber(lastOrderNo);
-
+    
+   
     const options = {
         amount: Number(req.body.amount * 100),
         currency: "INR",
