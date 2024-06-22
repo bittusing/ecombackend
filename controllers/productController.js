@@ -195,6 +195,54 @@ exports.getAllproductbyid = catchAsyncErrors(async (req, res, next) => {
 });
 
 
+////update product review 
+exports.updateproductreview = catchAsyncErrors(async (req, res, next) => {
+  const { product_id, name, rating, title, comment, _id } = req.body;
+
+  if (!product_id || !_id) {
+    return res.status(400).json({
+      success: false,
+      message: 'Product ID and review ID are required.',
+    });
+  }
+
+  // Find the product by ID
+  const product = await Product.findById(product_id);
+
+  if (!product) {
+    return res.status(404).json({
+      success: false,
+      message: 'Product not found.',
+    });
+  }
+
+  // Find the review by ID
+  const reviews = await Review.findById(_id);
+
+  if (!reviews) {
+    return res.status(404).json({
+      success: false,
+      message: 'Review not found.',
+    });
+  }
+
+  // Update the review fields
+  if (name) reviews.name = name;
+  if (rating) reviews.rating = rating;
+  if (title) reviews.title = title;
+  if (comment) reviews.comment = comment;
+
+  // Save the updated product
+  await reviews.save();
+
+  res.status(200).json({
+    success: true,
+    message: 'Review updated successfully.',
+    reviews,
+  });
+});
+
+
 ////  update Lost Reason 
 
 
