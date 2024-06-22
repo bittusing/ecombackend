@@ -174,8 +174,8 @@ exports.getAllproductbyid = catchAsyncErrors(async (req, res, next) => {
   }
   
   // Fetch reviews associated with the product
-  const reviews = await Review.find({ product_id:req.params.id});  
-
+  // const reviews = await Review.find({ product_id:req.params.id && approved:1});  
+  const reviews = await Review.find({ product_id:req.params.id, approved: 1 });
   // Calculate totalReviews and averageRating
   const totalReviews = reviews.length;
   const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
@@ -197,7 +197,7 @@ exports.getAllproductbyid = catchAsyncErrors(async (req, res, next) => {
 
 ////update product review 
 exports.updateproductreview = catchAsyncErrors(async (req, res, next) => {
-  const { product_id, name, rating, title, comment, _id } = req.body;
+  const { product_id, name, rating, title, comment, _id ,approved} = req.body;
 
   if (!product_id || !_id) {
     return res.status(400).json({
@@ -231,6 +231,7 @@ exports.updateproductreview = catchAsyncErrors(async (req, res, next) => {
   if (rating) reviews.rating = rating;
   if (title) reviews.title = title;
   if (comment) reviews.comment = comment;
+  if (approved) reviews.approved = approved;
 
   // Save the updated product
   await reviews.save();
