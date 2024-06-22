@@ -175,10 +175,10 @@ exports.getAllproductbyid = catchAsyncErrors(async (req, res, next) => {
   
   // Fetch reviews associated with the product
   // const reviews = await Review.find({ product_id:req.params.id && approved:1});  
-  const reviews = await Review.find({ product_id:req.params.id, approved: 1 });
+  const reviews = await Review.find({ product_id: req.params.id, approved: 1 });
   // Calculate totalReviews and averageRating
-  const totalReviews = reviews.length;
-  const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+  const totalReviews = reviews?.length;
+  const totalRating = reviews?.reduce((acc, review) => acc + review.rating, 0);
   const averageRating = totalReviews > 0 ? (totalRating / totalReviews).toFixed(1) : 0;
 
   // Add totalReviews and averageRating to the product object
