@@ -44,12 +44,14 @@ const  productController=require('../controllers/productController');
 product.post('/api/v1/addproduct',upload,productController.addproduct);     
 product.get('/api/v1/getAllproduct',productController.getAllproduct); 
 product.delete('/api/v1/BulkProductDelete',productController.BulkProductDelete); 
+product.delete('/api/v1/BulkProductReviewDelete',productController.BulkProductReviewDelete); 
 product.delete('/api/v1/deleteproduct/:id',productController.deleteproduct);
 product.put('/api/v1/updateproduct/:id',upload,productController.updateproduct);
 product.get('/api/v1/getAllproductbyid/:id',productController.getAllproductbyid);
 product.post('/api/v1/AddRevied',upload,productController.AddRevied);
 product.post('/api/v1/updateproductreview',productController.updateproductreview);
 product.get('/api/v1/getAllReviews/:id',productController.getAllReviews); 
+product.get('/api/v1/getAllReviewsadmin/:id',productController.getAllReviewsadmin); 
 product.get('/api/v1/getPerticulerReviews/:id',productController.getPerticulerReviews); 
 
 //////get All Product by category,subcategory,brand Id 

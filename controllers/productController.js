@@ -69,6 +69,16 @@ exports.BulkProductDelete = catchAsyncErrors(async (req, res, next) => {
     message: "Product Has Been Deleted",
   });
 });
+/////////for review 
+exports.BulkProductReviewDelete = catchAsyncErrors(async (req, res, next) => {
+  const leadIds = req.body.ids;
+
+  const result = await Review.deleteMany({ _id: { $in: leadIds } });
+  res.status(200).json({
+    success: true,
+    message: "Review Has Been Deleted",
+  });
+});
 
 
 
