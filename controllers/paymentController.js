@@ -320,8 +320,8 @@ exports.createShipments = catchAsyncErrors(async (req, res, next) => {
                 'content-type': 'application/json'
             },
             data: JSON.stringify({
-                "email": "decasys+1463@yahoo.co.in",
-                "password": "s8G6G30Qlx"
+                "email": "decasys+1488@yahoo.co.in",
+                "password": "1Ih1XvCgov"
             })
         };
 

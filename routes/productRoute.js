@@ -49,6 +49,7 @@ product.put('/api/v1/updateproduct/:id',upload,productController.updateproduct);
 product.get('/api/v1/getAllproductbyid/:id',productController.getAllproductbyid);
 product.post('/api/v1/AddRevied',upload,productController.AddRevied);
 product.get('/api/v1/getAllReviews/:id',productController.getAllReviews); 
+product.get('/api/v1/getPerticulerReviews/:id',productController.getPerticulerReviews); 
 
 //////get All Product by category,subcategory,brand Id 
 product.get('/api/v1/getAllProductByCategory/:id',productController.getAllProductByCategory);

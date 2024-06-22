@@ -318,6 +318,24 @@ exports.getAllReviews = async (req, res, next) => {
   } 
 };
 
+//get perticuler review 
+exports.getPerticulerReviews = async (req, res, next) => {
+  try {
+  
+    const reviews = await Review.find({ _id:req.params.id });
+
+    res.status(200).json({
+      success: true,
+      reviews
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: 'Internal Server Error'
+    });
+  } 
+};
+
 exports.getAllProductByCategory = async (req, res, next) => {
   try {
     // Find products by category ID
