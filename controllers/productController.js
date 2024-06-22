@@ -309,10 +309,7 @@ exports.updateproduct = catchAsyncErrors(async (req, res, next) => {
 /////  Add Review of Product 
 exports.AddRevied = catchAsyncErrors(async (req, res, next) => {
   const { product_id, name, rating, title, comment  } = req.body;
-  
-
-
-  // Check if product_id is provided
+   // Check if product_id is provided
   if (!product_id) {
     return next(new ErrorHander("Product ID is required", 404));
   }
