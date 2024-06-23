@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 const useragent = require('express-useragent');
 const { messaging } = require("firebase-admin");
 const nodemailer = require('nodemailer');
-
+const { generateMessage1 } = require('./messageGenerator'); 
 // const transporter = nodemailer.createTransport({
 //   host: 'smtp.ethereal.email',
 //   port: 587,
@@ -90,7 +90,7 @@ exports.forgotPasswordOtp = catchAsyncErrors(async (req, res, next) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error('Error occurred while sending email:', error);
-        return res.status(200).json({
+        return res.status(401).json({
           success: false,
           message: "There was a problem sending the email",
         });
@@ -107,6 +107,34 @@ exports.forgotPasswordOtp = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHander("Please enter a registered email address", 404));
   }
 });
+
+
+//////// send data on email 
+exports.sendData=catchAsyncErrors(async (req,res,next)=>{
+  const { firstname,lastname,email,phone,message } = req.body;
+  const message1 = generateMessage1(firstname,lastname,email,phone,message);
+  const mailOptions = {
+    from: 'contact@decasys.in',
+    to: email,
+    subject: 'Enquery',
+    html: message1
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error occurred while sending email:', error);
+      return res.status(200).json({
+        success: false,
+        message: "There was a problem sending the email",
+      });
+    } else {
+      // console.log('Email sent:', info.response);
+      return res.status(200).json({
+        success: true,
+        message: "Enquery Submit Successfully",
+      });
+    }
+  });
+})
 
 
 

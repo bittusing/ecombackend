@@ -235,14 +235,26 @@ exports.updateproductreview = catchAsyncErrors(async (req, res, next) => {
       message: 'Review not found.',
     });
   }
+  let images =  []; 
 
+  if (req.files) {
+    Object.keys(req.files).forEach((key) => {
+     req.files[key].forEach((file) => {
+        images.push({
+          image_name: file.filename,
+          url: file.path,
+        });
+      });
+    });
+  }
   // Update the review fields
   if (name) reviews.name = name;
   if (rating) reviews.rating = rating;
   if (title) reviews.title = title;
   if (comment) reviews.comment = comment;
   if (approved) reviews.approved = approved;
-
+  if (images) reviews.images = images;
+  
   // Save the updated product
   await reviews.save();
 

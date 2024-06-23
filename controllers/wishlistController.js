@@ -74,3 +74,6 @@ exports.getAllwishlistByUserId = catchAsyncErrors(async (req, res, next) => {
         wishlist: wishlistArray,
     });
 });
+
+
+

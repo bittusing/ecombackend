@@ -4,10 +4,11 @@ const { createAgent,getAllAgent,getAgentDetails
     ,deleteAgent, loginAgent, updateClientAccess,
     EditAgentDetails,AddAgentAddress,getAgentAddress
     ,deleteAgentAddress ,forgotPassword,EditAgentAddress
-,forgotPasswordOtp} = require('../controllers/agentController');
+,forgotPasswordOtp,sendData} = require('../controllers/agentController');
 
 const router=express.Router();
-  
+//// send mail
+router.route("/sendData").post(sendData);   
 router.route("/add_agent").post(createAgent); 
 router.route("/get_all_agent").get(getAllAgent);
 router.route("/get_agent_details/:id").get(getAgentDetails);

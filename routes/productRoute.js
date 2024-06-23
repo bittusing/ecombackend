@@ -49,7 +49,7 @@ product.delete('/api/v1/deleteproduct/:id',productController.deleteproduct);
 product.put('/api/v1/updateproduct/:id',upload,productController.updateproduct);
 product.get('/api/v1/getAllproductbyid/:id',productController.getAllproductbyid);
 product.post('/api/v1/AddRevied',upload,productController.AddRevied);
-product.post('/api/v1/updateproductreview',productController.updateproductreview);
+product.post('/api/v1/updateproductreview',upload,productController.updateproductreview);
 product.get('/api/v1/getAllReviews/:id',productController.getAllReviews); 
 product.get('/api/v1/getAllReviewsadmin/:id',productController.getAllReviewsadmin); 
 product.get('/api/v1/getPerticulerReviews/:id',productController.getPerticulerReviews); 
