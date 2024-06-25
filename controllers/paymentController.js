@@ -7,6 +7,7 @@ const Cart = require('../models/cartModel.js');
 const request = require('request');
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const Razorpay = require('razorpay');
+const axios = require('axios');
 const { ObjectId } = require('mongoose').Types;
 const instance = new Razorpay({
     //live
@@ -14,8 +15,8 @@ const instance = new Razorpay({
     key_secret: 'G4L0qb1wx3oa9KvPOexxaiX8',
 
     ////test
-    // key_id:"rzp_test_4cr8rot2NvnR3G",
-    // key_secret:"u3zXYfGTen225BMRuYBqsaOt",
+    // key_id:'rzp_test_4cr8rot2NvnR3G',
+    // key_secret:'u3zXYfGTen225BMRuYBqsaOt',
 }); 
  
 
@@ -126,6 +127,7 @@ exports.checkout = catchAsyncErrors(async (req, res, next) => {
 exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
         req.body;
+       
     const body = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedSignature = crypto
         .createHmac("sha256", instance.key_secret)
@@ -163,15 +165,15 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                // console.error('Error occurred while sending email:', error);
+                 console.error('Error occurred while sending email:', error);
             } else {
-                // console.log('Email sent:', info.response);
+                 console.log('Email sent:', info.response);
             }
         });
         await Cart.deleteMany({ session_id: updatedOrder?.session_id });
         res.redirect(
             `https://www.decasys.in/SuccessPage?reference=${razorpay_order_id}`
-            // `http://localhost:3000/SuccessPage?reference=${razorpay_order_id}`
+            // `http://localhost:3001/SuccessPage?reference=${razorpay_order_id}`
         );
     } else {
         res.redirect(
@@ -291,7 +293,7 @@ exports.createShipments = catchAsyncErrors(async (req, res, next) => {
     try {
         // Find the order details from the database based on the razorpay_order_id
         const order = await SaveOrder.findOne({ razorpay_order_id });
-
+        
         // Check if the order exists
         if (!order) {
             return res.status(404).json({ success: false, message: "Order not found" });
@@ -310,7 +312,7 @@ exports.createShipments = catchAsyncErrors(async (req, res, next) => {
             price: product.product_price.toString(),
             sku: product.product_id
         }));
-
+            
          // Fetch token from Nimbuspost
          const tokenConfig = {
             method: 'post',
@@ -326,9 +328,9 @@ exports.createShipments = catchAsyncErrors(async (req, res, next) => {
         };
 
         const tokenResponse = await axios.request(tokenConfig);
-        const token = tokenResponse.data.token;
+        const token = tokenResponse?.data?.data;
 
-
+        // console.log('token',tokenResponse?.data.data)
         const options = {
             method: 'POST',
             url: 'https://api.nimbuspost.com/v1/shipments',
