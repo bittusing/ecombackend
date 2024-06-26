@@ -372,7 +372,9 @@ exports.AddRevied = catchAsyncErrors(async (req, res, next) => {
 exports.getAllReviews = async (req, res, next) => {
   try {
   
-    const reviews = await Review.find({ product_id:req.params.id , approved: 1 });
+    // const reviews = await Review.find({ product_id:req.params.id , approved: 1 });
+    const reviews = await Review.find({ product_id: req.params.id, approved: 1 }).sort({ createdAt: -1 });
+
 
     res.status(200).json({
       success: true,
