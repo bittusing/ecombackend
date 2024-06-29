@@ -353,6 +353,36 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
 });
 
+exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
+  const { agent_email, oldpass, newpass } = req.body;
+ 
+  if (!agent_email || !oldpass || !newpass) {
+    return next(new ErrorHander("Please provide all required fields: agent_email, oldpass, newpass", 400));
+  }
+  const agent = await Agent.findOne({ agent_email }).select("agent_password");
+  if (!agent) {
+    return next(new ErrorHander("Email Id is not Registered", 400));
+  }
+  
+  const isPasswordMatched = await bcrypt.compare(oldpass, agent.agent_password);
+  if (!isPasswordMatched) {
+    return next(new ErrorHander("Old password is incorrect", 400));
+  }
+  const hashedPassword = await bcrypt.hash(newpass, 10);
+
+  const updateAgent = await Agent.updateOne(
+    { agent_email },
+    { agent_password: hashedPassword },
+    { new: true, runValidators: true, useFindAndModify: false }
+  );
+  
+
+  res.status(200).json({
+    success: true,
+    message: "Password updated successfully"
+  });
+});
+
 
 
 
