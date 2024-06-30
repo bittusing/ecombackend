@@ -22,8 +22,8 @@ const { generateMessage1 } = require('./messageGenerator');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'contact@decasys.in', // Your Gmail address
-    pass: 'jrrn hfoz vrie jcib'    // Your Gmail password or app password if 2FA is enabled
+    user: 'contact@decasys.in', 
+    pass: 'vsks gpzi uhjc ilnx'    // Your Gmail password or app password if 2FA is enabled
   }
 });
 
@@ -75,7 +75,7 @@ exports.forgotPasswordOtp = catchAsyncErrors(async (req, res, next) => {
   const { agent_email } = req.body;
   
   const agent = await Agent.findOne({ agent_email });
-
+    
   if (agent) {
     const otp = generateOtp();
     const message1 = generateMessage(otp);
@@ -86,8 +86,7 @@ exports.forgotPasswordOtp = catchAsyncErrors(async (req, res, next) => {
       subject: 'Your Password Reset OTP',
       html: message1
     };
-
-    transporter.sendMail(mailOptions, (error, info) => {
+   transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error('Error occurred while sending email:', error);
         return res.status(401).json({

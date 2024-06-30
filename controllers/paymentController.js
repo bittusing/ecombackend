@@ -25,21 +25,20 @@ const instance = new Razorpay({
 
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
+    service: 'gmail',
     auth: {
-        user: 'myles9@ethereal.email',
-        pass: 'ekGav56KwBgt1Re8cD'
+      user: 'contact@decasys.in', 
+      pass: 'vsks gpzi uhjc ilnx'    // Your Gmail password or app password if 2FA is enabled
     }
-});
+  });
 
 function generateInvoice(order) {
     // Extract relevant information from the order document
-    const orderId = order.razorpay_order_id;
-    const customerName = order.user_name;
-    const customerEmail = order.email;
-    const items = order.product_details;
-    const totalPrice = order.amount;
+    const orderId = order?.order_no;
+    const customerName = order?.user_name;
+    const customerEmail = order?.email;
+    const items = order?.product_details;
+    const totalPrice = order?.amount;
 
     // Build the invoice HTML string
     let invoice = `
@@ -153,11 +152,11 @@ exports.paymentVerification = catchAsyncErrors(async (req, res, next) => {
 
 
         // Generate invoice
-        const invoice = generateInvoice(updatedOrder); // Assuming generateInvoice function is defined
+        const invoice = generateInvoice(updatedOrder); 
 
         // Send invoice via email
         const mailOptions = {
-            from: 'yadav188@gmail.com',
+            from: 'contact@decasys.in',
             to: updatedOrder?.email, // Assuming you have stored customer email in the order object
             subject: 'Invoice for Your Order',
             html: invoice // Assuming invoice is an HTML string
