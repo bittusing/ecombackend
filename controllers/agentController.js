@@ -113,8 +113,8 @@ exports.sendData=catchAsyncErrors(async (req,res,next)=>{
   const { firstname,lastname,email,phone,message } = req.body;
   const message1 = generateMessage1(firstname,lastname,email,phone,message);
   const mailOptions = {
-    from: 'contact@decasys.in',
-    to: email,
+    from: email,
+    to: 'contact@decasys.in',
     subject: 'Enquery',
     html: message1
   };
